@@ -26,7 +26,7 @@ jobs:
           aws-region: us-west-1
 
       - name: install vars
-        run: ./import_vars.sh --secretName=test_by_mango
+        run: chmod +x ./import_vars.sh && ./import_vars.sh --secretName=test_by_mango
         working-directory: ${{ env.working-directory }}
 
       - name: init

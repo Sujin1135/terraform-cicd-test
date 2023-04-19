@@ -52,6 +52,6 @@ jobs:
       - uses: ahmadnassri/action-terraform-report@v3
         with:
           # tell the action the plan outputs
-          terraform-text: ${{ github.workspace }}${{ env.working-directory }}/terraform.text
-          terraform-json: ${{ github.workspace }}${{ env.working-directory }}/terraform.json
+          terraform-text: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
+          terraform-json: ${{ github.workspace }}/${{ env.working-directory }}/terraform.json
           remove-stale-reports: true

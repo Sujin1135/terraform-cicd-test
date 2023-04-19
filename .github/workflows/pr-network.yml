@@ -47,7 +47,6 @@ jobs:
 
       - uses: ahmadnassri/action-terraform-report@v3
         with:
-          # tell the action the plan outputs
           terraform-text: ./terraform.text
           terraform-json: ./terraform.json
           remove-stale-reports: true

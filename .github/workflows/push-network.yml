@@ -39,8 +39,12 @@ jobs:
         run: terraform init
         working-directory: ${{ env.working-directory }}
 
+      - name: plan
+        run: terraform plan -lock=false -out terraform.apply -var-file=${{ env.branch }}.json
+        working-directory: ${{ env.working-directory }}
+
       - name: apply
-        run: terraform apply -auto-approve -lock=false -json terraform.apply -var-file=${{ env.branch }}.json
+        run: terraform apply -auto-approve -lock=false -var-file=${{ env.branch }}.json
         working-directory: ${{ env.working-directory }}
 
       - name: generate plain output

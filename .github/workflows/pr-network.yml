@@ -13,6 +13,7 @@ jobs:
   terraform-plan:
     env:
       working-directory: ./terraform/network
+      branch: ${{ github.event.pull_request.base.ref }}
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +31,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: install vars
-        run: chmod +x ./import_vars.sh && ./import_vars.sh test_by_mango dev
+        run: chmod +x ./import_vars.sh && ./import_vars.sh test_by_mango ${{ env.branch }}
         working-directory: ${{ env.working-directory }}
 
       - name: init
@@ -38,7 +39,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: plan
-        run: terraform plan -lock=false -out terraform.plan -var-file=dev.json
+        run: terraform plan -lock=false -out terraform.plan -var-file=${{ env.branch }}.json
         working-directory: ${{ env.working-directory }}
 
       - name: generate plain output
@@ -49,9 +50,9 @@ jobs:
         run: terraform show -json terraform.plan > terraform.json
         working-directory: ${{ env.working-directory }}
 
-      - uses: ahmadnassri/action-terraform-report@v3
+      - name: Tell the action the plan outputs
+        uses: ahmadnassri/action-terraform-report@v3
         with:
-          # tell the action the plan outputs
           terraform-text: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
           terraform-json: ${{ github.workspace }}/${{ env.working-directory }}/terraform.json
           remove-stale-reports: true

@@ -1,0 +1,46 @@
+name: terraform-plan
+
+on:
+  pull_request:
+    paths: 
+      - 'terraform/network/**'
+
+jobs:
+  terraform-plan:
+    env:
+      working-directory: ./terraform/network
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: unfor19/install-aws-cli-action@master
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: install vars
+        run: ./import_vars.sh --secretName=test_by_mango
+        working-directory: ${{ env.working-directory }}
+
+      - name: init
+        run: terraform init
+        working-directory: ${{ env.working-directory }}
+
+      - name: plan
+        run: terraform plan -lock=false -out terraform.plan
+        working-directory: ${{ env.working-directory }}
+
+      - name: generate plain output
+        run: terraform show -no-color terraform.plan > terraform.text
+        working-directory: ${{ env.working-directory }}
+
+      - name: generate json output
+        run: terraform show -json terraform.plan > terraform.json
+        working-directory: ${{ env.working-directory }}
+
+      - uses: ahmadnassri/action-terraform-report@v3
+        with:
+          # tell the action the plan outputs
+          terraform-text: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
+          terraform-json: ${{ github.workspace }}/${{ env.working-directory }}/terraform.json
+          remove-stale-reports: true

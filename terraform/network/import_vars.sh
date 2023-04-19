@@ -1,4 +1,9 @@
-read -p "Secret Name: " secretName
+secretName=$1
+
+if [ -z $secretName ]
+then
+  read -p "Secret Name: " secretName
+fi
 
 if [ -z $secretName ]
 then
@@ -6,7 +11,12 @@ then
         exit 0
 fi
 
-read -p "env: " env
+env=$2
+
+if [ -z $env ]
+then
+  read -p "env: " env
+fi
 
 if [ -z $env ]
 then

@@ -1,6 +1,9 @@
 name: terraform-plan
 
 on:
+  push:
+    paths:
+      - 'terraform/network/**'
   pull_request:
     paths: 
       - 'terraform/network/**'

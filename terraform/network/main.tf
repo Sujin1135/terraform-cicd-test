@@ -5,12 +5,12 @@ terraform {
       version = "~> 4.0"
     }
   }
-  cloud {
-    organization = "kemi-team-backend"
-
-    workspaces {
-      name = "mango"
-    }
+  backend "s3" {
+    bucket          = "terraform-s3-tfstate-bucket"
+    key             = "terraform/terraform.tfstate"
+    region          = "us-west-1"
+    encrypt         = true
+    dynamodb_table  = "terraform-lock"
   }
 }
 

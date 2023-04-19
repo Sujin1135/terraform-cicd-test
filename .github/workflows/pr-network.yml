@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: plan
-        run: terraform plan -lock=false -out terraform.plan
+        run: terraform plan -lock=false -out terraform.plan -var-file=dev.json
         working-directory: ${{ env.working-directory }}
 
       - name: generate plain output

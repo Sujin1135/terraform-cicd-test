@@ -14,7 +14,7 @@ jobs:
   terraform-apply:
     env:
       working-directory: ./terraform/network
-      branch: ${{ github.base_ref }}
+      branch: ${{ github.ref_name }}
     runs-on: ubuntu-latest
 
     steps:

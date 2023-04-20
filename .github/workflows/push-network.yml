@@ -62,6 +62,9 @@ jobs:
         with:
           path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
 
+      - name: Echo package.json
+        run: echo "${{ steps.plan_list.outputs.content }}"
+
       - name: Tell the action the apply outputs
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
@@ -85,7 +88,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "${{ steps.plan_list.outputs.content }}"
+                        "text": "test"
                       }
                     }
                   ]

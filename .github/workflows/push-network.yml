@@ -56,6 +56,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Tell the action the apply outputs
+        id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
           payload-file-path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.json

@@ -77,7 +77,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "bar"
+                    "text": "Merge test"
                   }
                 }
               ],

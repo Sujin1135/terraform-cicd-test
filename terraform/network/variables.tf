@@ -8,6 +8,7 @@ variable "secret_key" {
 
 variable "region" {
   type = string
+  default = "us-west-1"
 }
 
 variable "vpc_cidr" {

@@ -63,14 +63,13 @@ jobs:
         with:
           path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
 
-      - name: Echo package.json
+      - name: Echo plan
         run: echo "${{ steps.plan.outputs.content }}"
 
       - name: Tell the action the apply outputs
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          # For posting a rich message using Block Kit
           payload: |
             {
               "blocks": [

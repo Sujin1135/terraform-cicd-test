@@ -89,7 +89,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "foo"
+                        "text": "${{ toJSON(steps.plan_list.outputs.content) }}"
                       }
                     }
                   ]

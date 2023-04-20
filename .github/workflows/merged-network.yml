@@ -10,12 +10,49 @@ permissions:
 
 jobs:
   notify_merged_pull_request:
-    name: Notify Slack on merged pull requests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: abinoda/slack-action@master
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          args: '{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Merged Pull Request:* ${{ github.event.pull_request.title }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Pull Request by :* ${{ github.event.pull_request.user.login }}\n*Merged at:* ${{ github.event.pull_request.merged_at }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<${{ github.event.pull_request.html_url }}|View Merged Pull Request>\"}}]}'
-        if: success()
+    - name: Tell the action the apply outputs
+      id: slack
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        payload: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "Merge test"
+                }
+              }
+            ],
+            "attachments": [
+              {
+                "blocks": [
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*Merged Pull Request:* ${{ github.event.pull_request.title }}"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*Pull Request by :* ${{ github.event.pull_request.user.login }}n*Merged at:* ${{ github.event.pull_request.merged_at }}"
+                    }
+                  },
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "<${{ github.event.pull_request.html_url }}|View Merged Pull Request>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

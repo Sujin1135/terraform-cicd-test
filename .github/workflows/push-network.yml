@@ -39,32 +39,10 @@ jobs:
         run: terraform init
         working-directory: ${{ env.working-directory }}
 
-      - name: plan
-        id: plan
-        run: terraform plan -lock=false -out terraform.apply -var-file=${{ env.branch }}.json
-        working-directory: ${{ env.working-directory }}
-
       - name: apply
         id: apply
         run: terraform apply -auto-approve -lock=false -var-file=${{ env.branch }}.json
         working-directory: ${{ env.working-directory }}
-
-      - name: generate plain output
-        run: terraform show -no-color terraform.apply > terraform.text
-        working-directory: ${{ env.working-directory }}
-
-      - name: generate json output
-        run: terraform show -json terraform.apply > terraform.json
-        working-directory: ${{ env.working-directory }}
-
-      - name: Read terraform.text
-        id: plan_list
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
-
-      - name: Echo package.json
-        run: echo ${{ toJSON(steps.plan_list.outputs.content) }}
 
       - name: Tell the action the apply outputs
         id: slack
@@ -89,7 +67,21 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": ${{ toJSON(steps.plan_list.outputs.content) }}
+                        "text": "*Merged Pull Request:* ${{ github.event.pull_request.title }}"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "*Pull Request by :* ${{ github.event.pull_request.user.login }}n*Merged at:* ${{ github.event.pull_request.merged_at }}"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "<${{ github.event.pull_request.html_url }}|View Merged Pull Request>"
                       }
                     }
                   ]

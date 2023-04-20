@@ -64,7 +64,7 @@ jobs:
           path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
 
       - name: Echo package.json
-        run: echo "${{ toJSON(steps.plan_list.outputs.content) }}"
+        run: echo ${{ toJSON(steps.plan_list.outputs.content) }}
 
       - name: Tell the action the apply outputs
         id: slack
@@ -89,7 +89,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "${{ toJSON(steps.plan_list.outputs.content) }}"
+                        "text": ${{ toJSON(steps.plan_list.outputs.content) }}
                       }
                     }
                   ]

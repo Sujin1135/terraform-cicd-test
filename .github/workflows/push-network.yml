@@ -40,6 +40,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: plan
+        id: plan
         run: terraform plan -lock=false -out terraform.apply -var-file=${{ env.branch }}.json
         working-directory: ${{ env.working-directory }}
 
@@ -63,7 +64,7 @@ jobs:
           path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
 
       - name: Echo package.json
-        run: echo "${{ steps.plan_list.outputs.content }}"
+        run: echo "${{ steps.plan.outputs.content }}"
 
       - name: Tell the action the apply outputs
         id: slack
@@ -89,7 +90,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": ${{ steps.plan_list.outputs.content }}
+                        "text": "foo"
                       }
                     }
                   ]

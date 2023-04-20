@@ -15,6 +15,7 @@ jobs:
       working-directory: ./terraform/network
       branch: ${{ github.event.pull_request.base.ref }}
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.merged == true }}
 
     steps:
       - uses: unfor19/install-aws-cli-action@master
@@ -43,13 +44,6 @@ jobs:
         run: terraform apply -auto-approve -lock=false -var-file=${{ env.branch }}.json
         working-directory: ${{ env.working-directory }}
 
-  notify_merged_pull_request:
-    env:
-      branch: ${{ github.event.pull_request.base.ref }}
-    runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true }}
-
-    steps:
       - name: Tell the action the pr merged outputs
         id: slack
         uses: slackapi/slack-github-action@v1.23.0

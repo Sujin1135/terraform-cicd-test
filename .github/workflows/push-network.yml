@@ -44,6 +44,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: apply
+        id: apply
         run: terraform apply -auto-approve -lock=false -var-file=${{ env.branch }}.json
         working-directory: ${{ env.working-directory }}
 
@@ -55,14 +56,41 @@ jobs:
         run: terraform show -json terraform.apply > terraform.json
         working-directory: ${{ env.working-directory }}
 
+      - name: Read terraform.text
+        id: plan_list
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ${{ github.workspace }}/${{ env.working-directory }}/terraform.text
+
       - name: Tell the action the apply outputs
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
           payload: |
             {
-              "key": "value",
-              "foo": "bar"
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "test"
+                  }
+                }
+              ],
+              "attachments": [
+                {
+                  "color": "#FF0000",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "${{ steps.plan_list.outputs.content }}"
+                      }
+                    }
+                  ]
+                }
+              ]
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

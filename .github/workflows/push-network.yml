@@ -59,7 +59,10 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          payload-file-path: "./terraform.json"
+          payload: |
+            {
+              "key": "value",
+              "foo": "bar"
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        working-directory: ${{ env.working-directory }}

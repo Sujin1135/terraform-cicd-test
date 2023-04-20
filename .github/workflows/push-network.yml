@@ -75,11 +75,24 @@ jobs:
               "blocks": [
                 {
                   "type": "section",
+                  "color": "#2EB67D",
                   "text": {
                     "type": "mrkdwn",
-                    "color": "#2EB67D",
-                    "text": ${{ toJSON(steps.plan_list.outputs.content) }}
+                    "text": "Merge test"
                   }
+                }
+              ],
+              "attachments": [
+                {
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": ${{ toJSON(steps.plan_list.outputs.content) }}
+                      }
+                    }
+                  ]
                 }
               ]
             }

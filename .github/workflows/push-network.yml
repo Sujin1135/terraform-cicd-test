@@ -89,7 +89,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "${{ steps.plan_list.outputs.content }}"
+                        "text": ${{ steps.plan_list.outputs.content }}
                       }
                     }
                   ]

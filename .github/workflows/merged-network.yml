@@ -1,4 +1,5 @@
 name: Notify Slack on merged pull requests
+
 on:
   pull_request:
     types:
@@ -10,7 +11,7 @@ permissions:
 
 jobs:
   notify_merged_pull_request:
-    - name: Tell the action the apply outputs
+    - name: Tell the action the pr merged outputs
       id: slack
       uses: slackapi/slack-github-action@v1.23.0
       with:

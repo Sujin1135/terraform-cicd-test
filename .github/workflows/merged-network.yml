@@ -31,6 +31,7 @@ jobs:
               ],
               "attachments": [
                 {
+                  "color": "#2EB67D",
                   "blocks": [
                     {
                       "type": "section",
